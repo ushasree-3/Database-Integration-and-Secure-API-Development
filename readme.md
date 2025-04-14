@@ -40,31 +40,14 @@ This Flask API implements Task 1 (Member Creation) and Task 2 (Role-Based Access
 3.  **Create and activate a virtual environment (highly recommended):**
     ```bash
     python3 -m venv mod3
-    # On Windows: .\mod3\Scripts\activate
-    # On macOS/Linux: source mod3/bin/activate
+    On Windows: .\mod3\Scripts\activate
+    On macOS/Linux: source mod3/bin/activate
     ```
 
 4.  **Install required dependencies:**
     ```bash
-    # Optional: Create a requirements.txt file: pip freeze > requirements.txt
-    # Then install using: pip install -r requirements.txt
+   pip install -r requirements.txt
     ```
-
-## Configuration (**CRITICAL**)
-
-Before running the application, you **must** configure it correctly:
-
-1.  **Edit `config.py`:**
-    *   **`SECRET_KEY`**: Replace the placeholder value with a long, random, and secret string. This is essential for JWT security.
-    *   **`DB_PASSWORD`**: Ensure this matches the actual database password for the `cs432g2` user.
-
-2.  **Verify Password Hashing Logic:**
-    *   **Examine `cs432cims.Login` Table:** Use phpMyAdmin to check how passwords are *actually* stored for the users you need to log in (especially admins like user 447). Are they plain text, MD5 hashes (32 hex characters), or Bcrypt hashes (starting `$2b$...` or similar)?
-    *   **Edit `app/auth/routes.py`:** Find the `local_login` function. Inside the `# --- !!! IMPORTANT: Password Verification Logic !!! ---` section, **ensure the code correctly checks the password based on how it's stored**. The current code prioritizes Bcrypt, then MD5, then Plain Text. Modify or uncomment the correct check if needed. **If this doesn't match, login will fail.**
-    *   **Edit `app/members/routes.py`:** Find the `add_member_task1` function. Verify the line `hashed_default_password = hashlib.md5(DEFAULT_PASSWORD.encode()).hexdigest()` correctly reflects how you want to store the `DEFAULT_PASSWORD` for *new* users. (Currently MD5 for consistency, but using Bcrypt is recommended if possible - ensure the login check handles it).
-
-3.  **Verify Database/Table/Column Names:**
-    *   Double-check the exact names (including capitalization) used in the SQL queries within `app/auth/routes.py` and `app/members/routes.py` against the actual names in phpMyAdmin (e.g., `Login` vs `login`, `MemberID` vs `memberid`, `Password` vs `password`, `members` vs `Members`, `UserName` vs `username`, `emailID` vs `emailid`). Make sure they match perfectly.
 
 ## Running the Application
 
@@ -109,3 +92,31 @@ These commands demonstrate the implemented features.
    curl -X POST http://localhost:5001/login \
         -H "Content-Type: application/json" \
         -d '{"user": "447", "password": "1234"}'
+   ```
+use {"user": "1137", "password": "XiLV9wEWdi"} for non-admin token
+(Copy the session_token from the successful JSON output)
+# Replace YOUR_TOKEN_HERE with token from step 1 in the below steps
+
+**2. Add New Member (Task 1 Test - Requires Admin Token):**
+Purpose: Verify admin can create a member.
+   ```bash
+curl -X POST http://localhost:5001/admin/add_member \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+     -d '{"name": "New User via Curl", "email": "new.curl@example.com"}'
+   ```
+
+**3. Get Own Profile (Task 2 Test - Requires Any Valid Token):**
+Purpose: Verify any logged-in user can view their own profile.
+```bash
+curl -X GET http://localhost:5001/profile/me \
+     -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+**4. Attempt Admin Action as User (Task 2 Test - Expect 403):**
+Purpose: Verify non-admin cannot access admin-only routes.
+# Attempt to view Admin 447's profile
+```bash
+curl -X GET http://localhost:5001/admin/profile/447 \
+     -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
