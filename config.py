@@ -18,7 +18,7 @@ class Config:
     DB_USER = os.environ.get('DB_USER') or 'cs432g2' 
     DB_PASSWORD = os.environ.get('DB_PASSWORD') or 'sJf9TzKm' 
     DB_NAME_CIMS = os.environ.get('DB_NAME_CIMS') or 'cs432cims'
-
+    DB_NAME_PROJECT = os.environ.get('DB_NAME_PROJECT') or 'cs432g2'
     # --- Default Password for New Users ---
     DEFAULT_PASSWORD = 'default123'
 

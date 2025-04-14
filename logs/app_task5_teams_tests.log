@@ -1,0 +1,41 @@
+2025-04-14 16:58:55,690 - app - INFO - CS432 API Startup
+2025-04-14 16:58:57,822 - app - INFO - CS432 API Startup
+2025-04-14 16:59:08,933 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 16:59:09,074 - app - INFO - Password matched (Plain Text) for MemberID 2001.
+2025-04-14 16:59:09,075 - app - INFO - Credentials valid for MemberID 2001. Role: admin. Generating local JWT.
+2025-04-14 16:59:09,075 - app - INFO - Local JWT generated for MemberID 2001.
+2025-04-14 16:59:34,035 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 16:59:34,061 - app - INFO - Request: Create Team by User ID: 2001, Role: admin
+2025-04-14 16:59:34,250 - app - INFO - Admin 2001 created Team ID: 12 Name: 'New Gladiators2'
+2025-04-14 16:59:49,368 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 16:59:49,368 - app - INFO - Request: Create Team by User ID: 2001, Role: admin
+2025-04-14 17:00:09,284 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:00:09,285 - app - INFO - Request: Create Team by User ID: 2001, Role: admin
+2025-04-14 17:00:09,289 - app - ERROR - Error parsing create team request JSON or casting IDs: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2025-04-14 17:00:22,261 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:00:22,261 - app - INFO - Request: Create Team by User ID: 2001, Role: admin
+2025-04-14 17:00:22,262 - app - ERROR - Error parsing create team request JSON or casting IDs: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2025-04-14 17:00:46,856 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:00:46,857 - app - INFO - Request: Get All Teams by User ID: 2001, Role: admin
+2025-04-14 17:00:46,917 - app - INFO - Retrieved 12 teams.
+2025-04-14 17:01:50,313 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:01:50,315 - app - INFO - Request: Get Team ID: 1 by User ID: 2001
+2025-04-14 17:01:50,475 - app - INFO - Retrieved Team ID: 1
+2025-04-14 17:02:05,983 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:02:05,988 - app - INFO - Request: Get Team ID: 99 by User ID: 2001
+2025-04-14 17:02:06,039 - app - WARNING - Team ID: 99 not found.
+2025-04-14 17:02:15,940 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:02:15,942 - app - INFO - Request: Update Team ID: 1 by User ID: 2001, Role: admin
+2025-04-14 17:02:16,120 - app - INFO - Admin 2001 updated Team ID: 1
+2025-04-14 17:03:06,742 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:03:06,744 - app - INFO - Request: Update Team ID: 99 by User ID: 2001, Role: admin
+2025-04-14 17:03:06,947 - app - WARNING - Update failed: Team ID: 99 not found.
+2025-04-14 17:03:22,867 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:03:22,868 - app - INFO - Request: Delete Team ID: 1 by User ID: 2001
+2025-04-14 17:03:22,918 - app - WARNING - FK Constraint failed deleting team 1 (dependent records exist): 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`cs432g2`.`EventRegistration`, CONSTRAINT `EventRegistration_ibfk_2` FOREIGN KEY (`TeamID`) REFERENCES `Team` (`TeamID`) ON UPDATE CASCADE)
+2025-04-14 17:03:50,082 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:03:50,083 - app - INFO - Request: Delete Team ID: 11 by User ID: 2001
+2025-04-14 17:03:50,219 - app - INFO - Admin 2001 deleted Team ID: 11
+2025-04-14 17:04:02,041 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 17:04:02,043 - app - INFO - Request: Delete Team ID: 99 by User ID: 2001
+2025-04-14 17:04:02,144 - app - WARNING - Delete failed: Team ID: 99 not found.

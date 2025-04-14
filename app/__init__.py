@@ -44,9 +44,19 @@ def create_app(config_class=Config):
     # Register Blueprints
     from .auth.routes import auth_bp
     from .members.routes import members_bp
+    from .teams.routes import teams_bp
+    # from .events.routes import events_bp 
+    # from .matches.routes import matches_bp 
+    # from .venues.routes import venues_bp 
+    # from .equipment.routes import equipment_bp 
 
     app.register_blueprint(auth_bp) # No URL prefix, routes like /login
     app.register_blueprint(members_bp) # No URL prefix, routes like /profile/me, /admin/add_member
+    app.register_blueprint(teams_bp, url_prefix='/teams')  # Register with a URL prefix
+    # app.register_blueprint(events_bp, url_prefix='/events') # Register new
+    # app.register_blueprint(matches_bp, url_prefix='/matches') # Register new
+    # app.register_blueprint(venues_bp, url_prefix='/venues') # Register new
+    # app.register_blueprint(equipment_bp, url_prefix='/equipment') # Register new
 
     # Simple default route (optional)
     @app.route('/')

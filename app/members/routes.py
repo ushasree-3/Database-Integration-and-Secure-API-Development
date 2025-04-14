@@ -66,8 +66,7 @@ def add_member_task1(current_user_id, current_user_role):
 
         return jsonify({
             "message": "Task 1 Success: Member created and login entry added (using local auth).",
-            "member_id": new_member_id,
-            "MemberID": new_member_id,
+            "ID": new_member_id,
         }), 201
 
     except mysql.connector.Error as db_err:
@@ -272,3 +271,4 @@ def delete_member_task3(current_user_id, current_user_role, member_id_to_delete)
         # Ensure cursor and connection are always closed
         if cursor: cursor.close()
         if conn and conn.is_connected(): conn.close()
+        
