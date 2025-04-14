@@ -12,7 +12,7 @@ class Config:
     # --- IMPORTANT: Set a Secret Key for JWT ---
     # Consider using environment variables for production.
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'IHopeIPassThisCourseIHopeIPassThisCourse'
-
+    GROUP_ID = int(os.environ.get('GROUP_ID', 2)) 
     # --- Central Database Configuration ---
     DB_HOST = os.environ.get('DB_HOST') or '10.0.116.125'
     DB_USER = os.environ.get('DB_USER') or 'cs432g2' 

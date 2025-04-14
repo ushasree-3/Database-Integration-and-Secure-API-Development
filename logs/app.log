@@ -1,36 +1,41 @@
-2025-04-14 12:06:20,193 - app - INFO - CS432 API Startup
-2025-04-14 12:06:22,446 - app - INFO - CS432 API Startup
-2025-04-14 12:06:33,816 - app - WARNING - Invalid token received.
-2025-04-14 12:06:39,430 - app - INFO - Request received at LOCAL /login endpoint
-2025-04-14 12:06:39,612 - app - INFO - Password matched (Plain Text) for MemberID 447.
-2025-04-14 12:06:39,612 - app - INFO - Credentials valid for MemberID 447. Role: admin. Generating local JWT.
-2025-04-14 12:06:39,613 - app - INFO - Local JWT generated for MemberID 447.
-2025-04-14 12:06:47,972 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
-2025-04-14 12:06:47,976 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin
-2025-04-14 12:06:47,978 - app - INFO - Admin user 447 authorized. Adding member.
-2025-04-14 12:06:48,066 - app - ERROR - Database Error during Task 1: 1062 (23000): Duplicate entry 'ZZ Test' for key 'members.unique_UserName'
-2025-04-14 12:06:48,088 - app - INFO - DB transaction rolled back.
-2025-04-14 12:07:08,164 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
-2025-04-14 12:07:08,167 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin
-2025-04-14 12:07:08,168 - app - INFO - Admin user 447 authorized. Adding member.
-2025-04-14 12:07:08,226 - app - INFO - Executed INSERT members for 'Test'.
-2025-04-14 12:07:08,226 - app - INFO - New member ID: 1232
-2025-04-14 12:07:08,230 - app - INFO - Executed INSERT Login for MemberID 1232.
-2025-04-14 12:07:08,275 - app - INFO - DB transaction committed for new member 1232.
-2025-04-14 12:07:14,076 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
-2025-04-14 12:07:14,078 - app - INFO - Request: /profile/me by user ID: 447, Role: admin
-2025-04-14 12:07:14,163 - app - INFO - Retrieved profile for user ID: 447
-2025-04-14 12:07:18,819 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
-2025-04-14 12:07:18,822 - app - INFO - Request: /admin/profile/1224 by user ID: 447, Role: admin
-2025-04-14 12:07:18,824 - app - INFO - Admin user 447 authorized. Fetching profile for target: 1224
-2025-04-14 12:07:18,907 - app - INFO - Admin 447 retrieved profile for ID: 1224
-2025-04-14 12:07:22,625 - app - INFO - Request received at LOCAL /login endpoint
-2025-04-14 12:07:22,712 - app - INFO - Password matched (Plain Text) for MemberID 1137.
-2025-04-14 12:07:22,713 - app - INFO - Credentials valid for MemberID 1137. Role: user. Generating local JWT.
-2025-04-14 12:07:22,714 - app - INFO - Local JWT generated for MemberID 1137.
-2025-04-14 12:07:38,101 - app - INFO - Token validated via decorator for user ID: 1137, Role: user
-2025-04-14 12:07:38,102 - app - INFO - Request: /profile/me by user ID: 1137, Role: user
-2025-04-14 12:07:38,174 - app - INFO - Retrieved profile for user ID: 1137
-2025-04-14 12:07:42,250 - app - INFO - Token validated via decorator for user ID: 1137, Role: user
-2025-04-14 12:07:42,253 - app - INFO - Request: /admin/profile/1224 by user ID: 1137, Role: user
-2025-04-14 12:07:42,256 - app - WARNING - Access denied: User 1137 (Role: user) is not admin for /admin/profile.
+2025-04-14 13:22:51,008 - app - INFO - Request: /admin/delete_member/1112 by Admin ID: 447
+2025-04-14 13:22:51,055 - app - INFO - MemberID 1112 found in 1 group mappings.
+2025-04-14 13:22:51,055 - app - INFO - MemberID 1112 has group mappings. Deleting mapping for group '10'.
+2025-04-14 13:22:51,061 - app - INFO - Deleted 1 mapping(s) for MemberID 1112 and GroupID 10.
+2025-04-14 13:22:51,101 - app - INFO - DB transaction committed for deletion task regarding MemberID 1112.
+2025-04-14 13:27:43,256 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 13:27:43,258 - app - INFO - Request: /admin/delete_member/1156 by Admin ID: 447
+2025-04-14 13:27:43,342 - app - INFO - MemberID 1156 found in 0 group mappings.
+2025-04-14 13:27:43,355 - app - INFO - MemberID 1156 has no group mappings. Proceeding with full deletion.
+2025-04-14 13:27:43,360 - app - INFO - Deleted 1 row(s) from Login for MemberID 1156.
+2025-04-14 13:27:43,366 - app - INFO - Deleted 1 row(s) from members for ID 1156.
+2025-04-14 13:27:43,399 - app - INFO - DB transaction committed for deletion task regarding MemberID 1156.
+2025-04-14 13:28:05,794 - app - INFO - CS432 API Startup
+2025-04-14 13:28:08,237 - app - INFO - CS432 API Startup
+2025-04-14 13:28:11,352 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 13:28:11,571 - app - INFO - Password matched (Plain Text) for MemberID 447.
+2025-04-14 13:28:11,572 - app - INFO - Credentials valid for MemberID 447. Role: admin. Generating local JWT.
+2025-04-14 13:28:11,572 - app - INFO - Local JWT generated for MemberID 447.
+2025-04-14 13:28:40,250 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 13:28:40,251 - app - INFO - Request: /admin/delete_member/1111 by Admin ID: 447
+2025-04-14 13:28:40,295 - app - INFO - MemberID 1111 found in 1 group mappings.
+2025-04-14 13:28:40,295 - app - INFO - MemberID 1111 has group mappings. Deleting mapping for group '2'.
+2025-04-14 13:28:40,298 - app - INFO - Deleted 0 mapping(s) for MemberID 1111 and GroupID 2.
+2025-04-14 13:28:40,300 - app - INFO - DB transaction committed for deletion task regarding MemberID 1111.
+2025-04-14 13:29:16,434 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 13:29:16,435 - app - INFO - Request: /admin/delete_member/101 by Admin ID: 447
+2025-04-14 13:29:16,481 - app - INFO - MemberID 101 found in 0 group mappings.
+2025-04-14 13:29:16,482 - app - INFO - MemberID 101 has no group mappings. Proceeding with full deletion.
+2025-04-14 13:29:16,489 - app - INFO - Deleted 1 row(s) from Login for MemberID 101.
+2025-04-14 13:29:16,494 - app - INFO - Deleted 1 row(s) from members for ID 101.
+2025-04-14 13:29:16,525 - app - INFO - DB transaction committed for deletion task regarding MemberID 101.
+2025-04-14 13:29:53,091 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 13:29:53,092 - app - INFO - Request: /admin/delete_member/445 by Admin ID: 447
+2025-04-14 13:29:53,139 - app - WARNING - Admin 447 tried to delete non-existent MemberID: 445
+2025-04-14 13:30:28,396 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 13:30:28,515 - app - INFO - Password matched (Plain Text) for MemberID 1137.
+2025-04-14 13:30:28,516 - app - INFO - Credentials valid for MemberID 1137. Role: user. Generating local JWT.
+2025-04-14 13:30:28,516 - app - INFO - Local JWT generated for MemberID 1137.
+2025-04-14 13:31:02,221 - app - INFO - Token validated via decorator for user ID: 1137, Role: user
+2025-04-14 13:31:02,221 - app - INFO - Request: /admin/delete_member/1129 by Admin ID: 1137
+2025-04-14 13:31:02,222 - app - WARNING - Access denied: User 1137 (Role: user) cannot delete members.
