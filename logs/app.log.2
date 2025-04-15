@@ -1,0 +1,115 @@
+2025-04-14 19:16:05,496 - app - INFO - CS432 API Startup
+2025-04-14 19:16:08,903 - app - INFO - CS432 API Startup
+2025-04-14 19:16:14,733 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 19:16:14,875 - app - INFO - Password matched (Plain Text) for MemberID 2003.
+2025-04-14 19:16:14,879 - app - INFO - Credentials valid for MemberID 2003. Role: Player. Generating local JWT.
+2025-04-14 19:16:14,879 - app - INFO - Local JWT generated for MemberID 2003.
+2025-04-14 19:16:34,834 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:16:34,835 - app - INFO - Request: Create Team by User ID: 2003, Role: Player
+2025-04-14 19:16:34,836 - app - WARNING - User 2003 (Role: Player) unauthorized to create team.
+2025-04-14 19:16:46,701 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:16:46,703 - app - INFO - Request: Get Team ID: 1 by User ID: 2003
+2025-04-14 19:16:46,793 - app - INFO - Retrieved Team ID: 1
+2025-04-14 19:16:54,447 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:16:54,448 - app - INFO - Request: Get Team ID: 99 by User ID: 2003
+2025-04-14 19:16:54,507 - app - WARNING - Team ID: 99 not found.
+2025-04-14 19:17:00,541 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:00,542 - app - INFO - Request: Update Team ID: 1 by User ID: 2003, Role: Player
+2025-04-14 19:17:00,544 - app - WARNING - User 2003 (Role: Player) unauthorized to update team 1.
+2025-04-14 19:17:07,282 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:07,284 - app - INFO - Request: Delete Team ID: 1 by User ID: 2003
+2025-04-14 19:17:07,285 - app - WARNING - User 2003 (Role: Player) unauthorized to delete team 1.
+2025-04-14 19:17:18,995 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:18,996 - app - INFO - Request: Get All Teams by User ID: 2003, Role: Player
+2025-04-14 19:17:19,068 - app - INFO - Retrieved 11 teams.
+2025-04-14 19:17:31,980 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:31,982 - app - INFO - Request: Create Team by User ID: 2003, Role: Player
+2025-04-14 19:17:31,983 - app - WARNING - User 2003 (Role: Player) unauthorized to create team.
+2025-04-14 19:17:55,738 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 19:17:55,795 - app - INFO - Password matched (Plain Text) for MemberID 2002.
+2025-04-14 19:17:55,795 - app - INFO - Credentials valid for MemberID 2002. Role: Coach. Generating local JWT.
+2025-04-14 19:17:55,796 - app - INFO - Local JWT generated for MemberID 2002.
+2025-04-14 19:18:05,200 - app - INFO - Token validated via decorator for user ID: 2002, Role: Coach
+2025-04-14 19:18:05,201 - app - INFO - Request: Create Team by User ID: 2002, Role: Coach
+2025-04-14 19:18:05,610 - app - INFO - Admin 2002 created Team ID: 13 Name: 'New Gladiators2'
+2025-04-14 19:18:11,383 - app - INFO - Token validated via decorator for user ID: 2002, Role: Coach
+2025-04-14 19:18:11,385 - app - INFO - Request: Update Team ID: 1 by User ID: 2002, Role: Coach
+2025-04-14 19:18:11,514 - app - WARNING - Update failed: Team ID: 1 not found.
+2025-04-14 19:18:18,367 - app - INFO - Token validated via decorator for user ID: 2002, Role: Coach
+2025-04-14 19:18:18,367 - app - INFO - Request: Update Team ID: 2 by User ID: 2002, Role: Coach
+2025-04-14 19:18:18,540 - app - INFO - Admin 2002 updated Team ID: 2
+2025-04-14 22:25:13,359 - app - INFO - CS432 API Startup
+2025-04-14 22:25:17,746 - app - INFO - CS432 API Startup
+2025-04-14 22:25:36,802 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 22:25:37,575 - app - INFO - Password matched (Plain Text) for MemberID 2001.
+2025-04-14 22:25:37,575 - app - INFO - Credentials valid for MemberID 2001. Role: admin. Generating local JWT.
+2025-04-14 22:25:37,577 - app - INFO - Local JWT generated for MemberID 2001.
+2025-04-14 22:25:51,274 - app - WARNING - Expired token received.
+2025-04-14 22:25:55,810 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 22:25:55,811 - app - INFO - Request: Add player to Team ID: 2 by User ID: 2001, Role: admin
+2025-04-14 22:25:55,813 - app - ERROR - Error parsing add player request JSON or casting IDs: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2025-04-14 22:26:38,888 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 22:26:38,889 - app - INFO - Request: Add player to Team ID: 2 by User ID: 2001, Role: admin
+2025-04-14 22:26:39,020 - app - ERROR - Database Error adding player to team 2: 1216 (23000): Cannot add or update a child row: a foreign key constraint fails
+2025-04-14 23:07:39,157 - app - INFO - CS432 API Startup
+2025-04-14 23:07:42,624 - app - INFO - CS432 API Startup
+2025-04-14 23:07:44,254 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 23:07:44,255 - app - INFO - Request: Add player to Team ID: 2 by User ID: 2001, Role: admin
+2025-04-14 23:08:35,063 - app - WARNING - Auth token missing in request header.
+2025-04-14 23:08:44,518 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 23:08:44,589 - app - INFO - Password matched (Plain Text) for MemberID 2001.
+2025-04-14 23:08:44,590 - app - INFO - Credentials valid for MemberID 2001. Role: admin. Generating local JWT.
+2025-04-14 23:08:44,590 - app - INFO - Local JWT generated for MemberID 2001.
+2025-04-14 23:08:56,469 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 23:08:56,471 - app - INFO - Request: Remove MemberID 2005 from Team ID: 2 by User ID: 2001
+2025-04-14 23:08:56,519 - app - WARNING - Delete failed: Player MemberID 2005 not found on Team ID 2.
+2025-04-14 23:13:50,926 - app - WARNING - Auth token missing in request header.
+2025-04-14 23:14:06,288 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 23:14:06,289 - app - INFO - Request: /admin/add_member by user ID: 2001, Role: admin
+2025-04-14 23:14:06,290 - app - INFO - Admin user 2001 authorized. Adding member.
+2025-04-14 23:14:06,291 - app - WARNING - Missing 'name' or 'email' in add_member request
+2025-04-14 23:15:13,226 - app - INFO - CS432 API Startup
+2025-04-14 23:15:38,189 - app - INFO - CS432 API Startup
+2025-04-14 23:17:39,703 - app - INFO - CS432 API Startup
+2025-04-14 23:17:42,465 - app - INFO - CS432 API Startup
+2025-04-14 23:17:43,866 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
+2025-04-14 23:17:43,866 - app - INFO - Request: /admin/add_member by user ID: 2001, Role: admin
+2025-04-14 23:17:43,868 - app - INFO - Admin user 2001 authorized. Adding member.
+2025-04-14 23:17:44,015 - app - ERROR - Database Error during Task 1: 1136 (21S01): Column count doesn't match value count at row 1
+2025-04-14 23:17:44,018 - app - INFO - DB transaction rolled back.
+2025-04-14 23:18:00,499 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 23:18:00,552 - app - INFO - Password matched (Plain Text) for MemberID 2001.
+2025-04-14 23:18:00,554 - app - INFO - Credentials valid for MemberID 2001. Role: admin. Generating local JWT.
+2025-04-14 23:18:00,555 - app - INFO - Local JWT generated for MemberID 2001.
+2025-04-14 23:18:24,703 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 23:18:24,759 - app - INFO - Password matched (Plain Text) for MemberID 447.
+2025-04-14 23:18:24,760 - app - INFO - Credentials valid for MemberID 447. Role: admin. Generating local JWT.
+2025-04-14 23:18:24,761 - app - INFO - Local JWT generated for MemberID 447.
+2025-04-14 23:18:33,813 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 23:18:33,813 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin
+2025-04-14 23:18:33,814 - app - INFO - Admin user 447 authorized. Adding member.
+2025-04-14 23:18:33,908 - app - ERROR - Database Error during Task 1: 1136 (21S01): Column count doesn't match value count at row 1
+2025-04-14 23:18:33,918 - app - INFO - DB transaction rolled back.
+2025-04-14 23:19:48,422 - app - INFO - CS432 API Startup
+2025-04-14 23:19:55,478 - app - INFO - CS432 API Startup
+2025-04-14 23:19:57,725 - app - INFO - CS432 API Startup
+2025-04-14 23:19:59,710 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 23:19:59,713 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin
+2025-04-14 23:19:59,714 - app - INFO - Admin user 447 authorized. Adding member.
+2025-04-14 23:19:59,962 - app - ERROR - Database Error during Task 1: Not enough parameters for the SQL statement
+2025-04-14 23:20:00,003 - app - INFO - DB transaction rolled back.
+2025-04-14 23:20:45,796 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 23:20:45,799 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin
+2025-04-14 23:20:45,803 - app - INFO - Admin user 447 authorized. Adding member.
+2025-04-14 23:20:45,868 - app - ERROR - Database Error during Task 1: Not enough parameters for the SQL statement
+2025-04-14 23:20:45,872 - app - INFO - DB transaction rolled back.
+2025-04-14 23:21:00,005 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 23:21:00,005 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin
+2025-04-14 23:21:00,006 - app - INFO - Admin user 447 authorized. Adding member.
+2025-04-14 23:21:00,112 - app - ERROR - Database Error during Task 1: Not enough parameters for the SQL statement
+2025-04-14 23:21:00,115 - app - INFO - DB transaction rolled back.
+2025-04-14 23:22:16,215 - app - INFO - CS432 API Startup
+2025-04-14 23:22:22,573 - app - INFO - CS432 API Startup
+2025-04-14 23:22:24,927 - app - INFO - CS432 API Startup
+2025-04-14 23:22:26,520 - app - INFO - Token validated via decorator for user ID: 447, Role: admin
+2025-04-14 23:22:26,522 - app - INFO - Request: /admin/add_member by user ID: 447, Role: admin

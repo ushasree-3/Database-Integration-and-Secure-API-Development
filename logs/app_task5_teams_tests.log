@@ -39,3 +39,44 @@
 2025-04-14 17:04:02,041 - app - INFO - Token validated via decorator for user ID: 2001, Role: admin
 2025-04-14 17:04:02,043 - app - INFO - Request: Delete Team ID: 99 by User ID: 2001
 2025-04-14 17:04:02,144 - app - WARNING - Delete failed: Team ID: 99 not found.
+
+2025-04-14 19:16:05,496 - app - INFO - CS432 API Startup
+2025-04-14 19:16:08,903 - app - INFO - CS432 API Startup
+2025-04-14 19:16:14,733 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 19:16:14,875 - app - INFO - Password matched (Plain Text) for MemberID 2003.
+2025-04-14 19:16:14,879 - app - INFO - Credentials valid for MemberID 2003. Role: Player. Generating local JWT.
+2025-04-14 19:16:14,879 - app - INFO - Local JWT generated for MemberID 2003.
+2025-04-14 19:16:34,834 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:16:34,835 - app - INFO - Request: Create Team by User ID: 2003, Role: Player
+2025-04-14 19:16:34,836 - app - WARNING - User 2003 (Role: Player) unauthorized to create team.
+2025-04-14 19:16:46,701 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:16:46,703 - app - INFO - Request: Get Team ID: 1 by User ID: 2003
+2025-04-14 19:16:46,793 - app - INFO - Retrieved Team ID: 1
+2025-04-14 19:16:54,447 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:16:54,448 - app - INFO - Request: Get Team ID: 99 by User ID: 2003
+2025-04-14 19:16:54,507 - app - WARNING - Team ID: 99 not found.
+2025-04-14 19:17:00,541 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:00,542 - app - INFO - Request: Update Team ID: 1 by User ID: 2003, Role: Player
+2025-04-14 19:17:00,544 - app - WARNING - User 2003 (Role: Player) unauthorized to update team 1.
+2025-04-14 19:17:07,282 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:07,284 - app - INFO - Request: Delete Team ID: 1 by User ID: 2003
+2025-04-14 19:17:07,285 - app - WARNING - User 2003 (Role: Player) unauthorized to delete team 1.
+2025-04-14 19:17:18,995 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:18,996 - app - INFO - Request: Get All Teams by User ID: 2003, Role: Player
+2025-04-14 19:17:19,068 - app - INFO - Retrieved 11 teams.
+2025-04-14 19:17:31,980 - app - INFO - Token validated via decorator for user ID: 2003, Role: Player
+2025-04-14 19:17:31,982 - app - INFO - Request: Create Team by User ID: 2003, Role: Player
+2025-04-14 19:17:31,983 - app - WARNING - User 2003 (Role: Player) unauthorized to create team.
+2025-04-14 19:17:55,738 - app - INFO - Request received at LOCAL /login endpoint
+2025-04-14 19:17:55,795 - app - INFO - Password matched (Plain Text) for MemberID 2002.
+2025-04-14 19:17:55,795 - app - INFO - Credentials valid for MemberID 2002. Role: Coach. Generating local JWT.
+2025-04-14 19:17:55,796 - app - INFO - Local JWT generated for MemberID 2002.
+2025-04-14 19:18:05,200 - app - INFO - Token validated via decorator for user ID: 2002, Role: Coach
+2025-04-14 19:18:05,201 - app - INFO - Request: Create Team by User ID: 2002, Role: Coach
+2025-04-14 19:18:05,610 - app - INFO - Admin 2002 created Team ID: 13 Name: 'New Gladiators2'
+2025-04-14 19:18:11,383 - app - INFO - Token validated via decorator for user ID: 2002, Role: Coach
+2025-04-14 19:18:11,385 - app - INFO - Request: Update Team ID: 1 by User ID: 2002, Role: Coach
+2025-04-14 19:18:11,514 - app - WARNING - Update failed: Team ID: 1 not found.
+2025-04-14 19:18:18,367 - app - INFO - Token validated via decorator for user ID: 2002, Role: Coach
+2025-04-14 19:18:18,367 - app - INFO - Request: Update Team ID: 2 by User ID: 2002, Role: Coach
+2025-04-14 19:18:18,540 - app - INFO - Admin 2002 updated Team ID: 2

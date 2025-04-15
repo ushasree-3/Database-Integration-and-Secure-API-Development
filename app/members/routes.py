@@ -25,11 +25,18 @@ def add_member_task1(current_user_id, current_user_role):
 
     try:
         data = request.get_json()
-        if not data or 'name' not in data or 'email' not in data:
-            current_app.logger.warning("Missing 'name' or 'email' in add_member request")
-            return jsonify({"error": "Missing 'name' or 'email' in request JSON body"}), 400
-        new_name = data['name']
-        new_email = data['email']
+        if not data or 'UserName' not in data:
+            current_app.logger.warning("Missing 'UserName' in add_member request")
+            return jsonify({"error": "Missing 'Username' in request JSON body"}), 400
+        new_name = data['UserName']
+        if 'emailID' in data:
+            new_email = data['emailID']
+        if 'DoB' in data:
+            new_DoB = data['DoB']
+        if 'Role' in data:
+            new_role = data['Role']
+        else :
+            new_role = 'user'
     except Exception as e:
         current_app.logger.error(f"Error parsing add_member request JSON: {e}")
         return jsonify({"error": "Invalid JSON data in request body"}), 400
@@ -43,8 +50,8 @@ def add_member_task1(current_user_id, current_user_role):
         cursor = conn.cursor()
 
         # Insert into members (Use correct column names: UserName, emailID)
-        sql_insert_member = "INSERT INTO members (UserName, emailID) VALUES (%s, %s)"
-        cursor.execute(sql_insert_member, (new_name, new_email))
+        sql_insert_member = "INSERT INTO members (UserName, emailID, DoB) VALUES (%s, %s, %s)"
+        cursor.execute(sql_insert_member, (new_name, new_email, new_DoB))
         current_app.logger.info(f"Executed INSERT members for '{new_name}'.")
 
         new_member_id = cursor.lastrowid
@@ -58,7 +65,7 @@ def add_member_task1(current_user_id, current_user_role):
 
         # Insert into Login (Use correct table and column names: Login, MemberID, Password, Role)
         sql_insert_login = "INSERT INTO Login (MemberID, Password, Role) VALUES (%s, %s, %s)"
-        cursor.execute(sql_insert_login, (new_member_id, hashed_default_password, 'user')) # Default role 'user'
+        cursor.execute(sql_insert_login, (new_member_id, hashed_default_password, new_role)) 
         current_app.logger.info(f"Executed INSERT Login for MemberID {new_member_id}.")
 
         conn.commit()

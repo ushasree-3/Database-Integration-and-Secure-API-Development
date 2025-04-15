@@ -1,2 +1,2 @@
-/__pycache__
-./app/members/__pycache__
+*.pyc
+__pycache__/
