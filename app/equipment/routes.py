@@ -7,7 +7,7 @@ import logging
 from ..auth.decorators import token_required
 from ..utils.database import get_project_db_connection
 # Import helpers needed
-from ..utils.helpers import check_member_exists, check_equipment_exists
+from ..utils.helpers import check_member_exists, is_equipment_issuable
 
 equipment_bp = Blueprint('equipment', __name__)
 
@@ -277,23 +277,17 @@ def borrow_equipment(current_user_id, current_user_role):
         return jsonify({"error": "Invalid JSON data or non-integer ID"}), 400
 
     # --- Validation ---
-    if not check_equipment_exists(equipment_id): return jsonify({"error": f"Equipment {equipment_id} not found"}), 404
     if not check_member_exists(issued_to_id): return jsonify({"error": f"Member {issued_to_id} not found"}), 404
-
+    # Check equipment issuability (availability + condition)
+    issuable, reason = is_equipment_issuable(equipment_id)
+    if not issuable:
+        current_app.logger.info(f"Equipment {equipment_id} not issuable: {reason}")
+        return jsonify({"error": reason}), 409
+        
     conn = None; cursor = None
     try:
         conn = get_project_db_connection()
         if not conn: return jsonify({"error": "DB connection failed"}), 500
-        # --- Check Availability & Condition via API (before relying on trigger) ---
-        cursor_check = conn.cursor(dictionary=True)
-        cursor_check.execute("SELECT IsAvailable, Condition_ FROM Equipment WHERE EquipmentID = %s", (equipment_id,))
-        equip_status = cursor_check.fetchone()
-        if not equip_status: return jsonify({"error": "Equipment status check failed"}), 500 # Should exist if check passed
-        if not equip_status['IsAvailable']: return jsonify({"error": "Equipment is not available"}), 409
-        if equip_status['Condition_'] == 'Poor': return jsonify({"error": "Equipment condition is Poor"}), 409
-        cursor_check.close()
-        # --- End Availability Check ---
-
         # --- Use Transaction ---
         conn.start_transaction() # Explicit transaction needed for multi-step
         cursor = conn.cursor()
