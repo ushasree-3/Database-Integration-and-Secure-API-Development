@@ -146,3 +146,6 @@ _Attempt to view Admin 447's profile_
 curl -X GET http://localhost:5001/admin/profile/447 \
      -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
+
+npm install axios
+npm install react-router-dom
