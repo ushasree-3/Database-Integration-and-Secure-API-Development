@@ -286,3 +286,52 @@ def delete_member_task3(current_user_id, current_user_role, member_id_to_delete)
         if cursor: cursor.close()
         if conn and conn.is_connected(): conn.close()
         
+# --- NEW Route: Get Members for OUR Group ---
+@members_bp.route('/members/my_group', methods=['GET'])
+@token_required # Require login to see group members
+def get_my_group_members(current_user_id, current_user_role):
+    """Fetches members belonging to the group specified in the config."""
+    target_group_id = current_app.config.get('GROUP_ID') # Get group ID from config
+    current_app.logger.info(f"Request: Get members for Group ID: {target_group_id} by User ID: {current_user_id}")
+
+    # RBAC: Decide who can see the group list. Maybe any member of the group? Or just Admin/Coach?
+    # For now, let's allow any logged-in user (decorator handles login).
+    # Add specific role checks here if needed:
+    # allowed_roles = ['admin', 'Coach', 'Player', ...]
+    # if current_user_role not in allowed_roles:
+    #     return jsonify({"error": "Insufficient privileges to view group members"}), 403
+
+    conn = None; cursor = None
+    try:
+        conn = get_cims_db_connection()
+        if not conn: return jsonify({"error": "Database connection failed"}), 500
+        cursor = conn.cursor(dictionary=True)
+
+        # SQL to get members belonging to the specific group ID
+        # Ensure table/column names match: members (ID, UserName, emailID, DoB), MemberGroupMapping (MemberID, GroupID)
+        sql_select_group_members = """
+            SELECT m.ID, m.UserName, m.emailID, m.DoB
+            FROM members m
+            JOIN MemberGroupMapping mgm ON m.ID = mgm.MemberID
+            WHERE mgm.GroupID = %s
+            ORDER BY m.UserName
+        """
+        cursor.execute(sql_select_group_members, (target_group_id,))
+        members_list = cursor.fetchall()
+
+        current_app.logger.info(f"Retrieved {len(members_list)} members for Group ID: {target_group_id}")
+        return jsonify(members_list), 200
+
+    except mysql.connector.Error as db_err:
+         # Handle potential "Table doesn't exist" if MemberGroupMapping name is wrong
+         if db_err.errno == 1146:
+              current_app.logger.error(f"DB Error: Table 'MemberGroupMapping' (or related) likely doesn't exist or name is wrong: {db_err}")
+              return jsonify({"error": "Database configuration error finding group members.", "details": str(db_err)}), 500
+         current_app.logger.error(f"Database Error getting group members: {db_err}")
+         return jsonify({"error": "Database error occurred", "details": str(db_err)}), 500
+    except Exception as e:
+        current_app.logger.error(f"Unexpected error getting group members: {e}", exc_info=True)
+        return jsonify({"error": "Server error occurred"}), 500
+    finally:
+        if cursor: cursor.close()
+        if conn and conn.is_connected(): conn.close()
