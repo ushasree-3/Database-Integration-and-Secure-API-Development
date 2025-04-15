@@ -7,7 +7,7 @@ import datetime # Needed for date comparisons
 from ..auth.decorators import token_required
 # Need both DB connections: project for events/regs, cims for member checks
 from ..utils.database import get_project_db_connection, get_cims_db_connection
-from ..utils.helpers import check_member_exists, check_team_exists, check_event_exists
+from ..utils.helpers import check_member_exists, check_team_exists, check_event_exists,is_event_open
 
 # Create the Blueprint instance for events
 events_bp = Blueprint('events', __name__)
@@ -350,8 +350,11 @@ def register_team_for_event(current_user_id, current_user_role, event_id):
     # --- Validation Checks ---
     if not check_event_exists(event_id): return jsonify({"error": f"Event ID {event_id} not found."}), 404
     if not check_team_exists(team_id): return jsonify({"error": f"Team ID {team_id} not found."}), 404
-    # Optional: Check if the user belongs to the team they are trying to register?
-    # Optional: Check if event state allows registration (e.g., not 'Ongoing'/'Completed')
+    
+    # --- Check if event start date is in the future ---
+    is_open, error_message = is_event_open(event_id)
+    if not is_open:
+        return jsonify({"error": error_message}), 400
     # --- End Validation ---
 
     conn = None; cursor = None
