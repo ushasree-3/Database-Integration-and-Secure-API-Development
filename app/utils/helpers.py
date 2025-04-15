@@ -38,22 +38,45 @@ def check_team_exists(team_id):
         if conn and conn.is_connected(): conn.close()
     return exists
 
-def check_event_exists(event_id):
-    """Checks if an EventID exists in the project Event_ table."""
-    conn = None; cursor = None; exists = False
+def is_event_valid(event_id):
+    """
+    Checks if the event exists and if the event's start date is in the future.
+    Returns (True, "") if the event exists and is open for registration, else (False, error_message)
+    """
+    conn = None
+    cursor = None
     try:
         conn = get_project_db_connection()
-        if not conn: return False
-        cursor = conn.cursor()
-        cursor.execute("SELECT 1 FROM Event_ WHERE EventID = %s", (event_id,))
-        exists = cursor.fetchone() is not None
+        if not conn:
+            return False, "Database connection failed"
+        
+        cursor = conn.cursor(dictionary=True)
+        
+        # Query to check if the event exists and retrieve its start date
+        sql = "SELECT EventStartDate FROM Event_ WHERE EventID = %s"
+        cursor.execute(sql, (event_id,))
+        event = cursor.fetchone()
+        
+        if not event:
+            return False, f"Event ID {event_id} not found"
+        
+        event_start_date = event['EventStartDate']
+        
+        # Check if the event start date is in the future
+        if event_start_date <= datetime.date.today():
+            return False, "Cannot register for an event that has already started"
+
+        return True, ""
+    
     except mysql.connector.Error as db_err:
-        current_app.logger.error(f"Error checking project event existence for ID {event_id}: {db_err}")
-        exists = False
+        current_app.logger.error(f"Error checking event validity for Event ID {event_id}: {db_err}")
+        return False, "Database error occurred"
+    except Exception as e:
+        current_app.logger.error(f"Error checking event validity for Event ID {event_id}: {e}", exc_info=True)
+        return False, "Server error"
     finally:
         if cursor: cursor.close()
         if conn and conn.is_connected(): conn.close()
-    return exists
 
 def check_venue_exists(venue_id):
     """Checks if a VenueID exists in the project Venue table."""
