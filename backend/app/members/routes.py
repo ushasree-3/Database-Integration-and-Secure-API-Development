@@ -2,7 +2,7 @@
 from flask import request, jsonify, current_app, Blueprint
 import mysql.connector
 import hashlib
-from datetime import *
+import datetime
 
 # Import helpers and decorators
 from ..utils.database import get_cims_db_connection
@@ -286,7 +286,7 @@ def delete_member_task3(current_user_id, current_user_role, member_id_to_delete)
         if cursor: cursor.close()
         if conn and conn.is_connected(): conn.close()
         
-# --- NEW Route: Get Members for OUR Group ---
+# --- Route for Task 7: Get Members for OUR Group ---
 @members_bp.route('/members/my_group', methods=['GET'])
 @token_required # Require login to see group members
 def get_my_group_members(current_user_id, current_user_role):
@@ -332,6 +332,103 @@ def get_my_group_members(current_user_id, current_user_role):
     except Exception as e:
         current_app.logger.error(f"Unexpected error getting group members: {e}", exc_info=True)
         return jsonify({"error": "Server error occurred"}), 500
+    finally:
+        if cursor: cursor.close()
+        if conn and conn.is_connected(): conn.close()
+        
+# --- Route for Task 7: Update Member Details (Admin Only) ---
+@members_bp.route('/admin/members/<int:member_id_to_update>', methods=['PUT'])
+@token_required
+def update_member_admin(current_user_id, current_user_role, member_id_to_update):
+    """Updates member details in the CIMS members table. Requires Admin role."""
+    current_app.logger.info(f"Request: Update Member ID: {member_id_to_update} by Admin ID: {current_user_id}")
+
+    # 1. RBAC Check
+    if current_user_role != 'admin':
+        return jsonify({"error": "Admin privileges required to update members"}), 403
+
+    # 2. Get Data from Request Body
+    try:
+        data = request.get_json()
+        if not data: return jsonify({"error": "Missing JSON body"}), 400
+
+        # Fields allowed to be updated (adjust as needed)
+        # Typically ID is not updated. Maybe Role is updated via a separate endpoint?
+        username = data.get('UserName')
+        email = data.get('emailID')
+        dob_str = data.get('DoB') # Expect YYYY-MM-DD
+
+        # Check that at least one field is provided
+        if not any([username, email, dob_str]):
+            return jsonify({"error": "No update fields provided (UserName, emailID, DoB)"}), 400
+
+        # Validate Date if provided
+        dob = None
+        if dob_str:
+            try:
+                dob = datetime.date.fromisoformat(dob_str)
+            except ValueError:
+                return jsonify({"error": "Invalid date format for DoB. Use YYYY-MM-DD."}), 400
+
+    except Exception as e:
+        current_app.logger.error(f"Error parsing update member request JSON: {e}")
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    # 3. Database Update Operation
+    conn = None; cursor = None
+    try:
+        conn = get_cims_db_connection()
+        if not conn: return jsonify({"error": "Database connection failed"}), 500
+        cursor = conn.cursor()
+
+        # Build dynamic UPDATE statement
+        update_fields = []
+        update_values = []
+        if username:
+            update_fields.append("UserName = %s")
+            update_values.append(username)
+        if email:
+            update_fields.append("emailID = %s")
+            update_values.append(email)
+        if dob:
+            update_fields.append("DoB = %s")
+            update_values.append(dob)
+
+        if not update_fields: # Should be caught earlier
+            return jsonify({"error": "No valid fields provided for update"}), 400
+
+        update_values.append(member_id_to_update) # Add ID for WHERE clause
+
+        sql_update = f"UPDATE members SET {', '.join(update_fields)} WHERE ID = %s"
+
+        cursor.execute(sql_update, tuple(update_values))
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": f"Member ID {member_id_to_update} not found"}), 404
+
+        conn.commit()
+        current_app.logger.info(f"Admin {current_user_id} updated Member ID: {member_id_to_update}")
+
+        # Optionally fetch and return updated member data
+        cursor.execute("SELECT ID, UserName, emailID, DoB FROM members WHERE ID = %s", (member_id_to_update,))
+        updated_member = cursor.fetchone()
+
+        return jsonify({
+            "message": "Member updated successfully",
+            "member": updated_member
+        }), 200
+
+    except mysql.connector.Error as db_err:
+        if conn: conn.rollback()
+        # Handle potential unique constraint errors (e.g., emailID if it's unique)
+        if db_err.errno == 1062:
+             return jsonify({"error": "Update failed: Duplicate value detected (e.g., email already exists).", "details": str(db_err)}), 409
+        current_app.logger.error(f"DB Error updating member {member_id_to_update}: {db_err}")
+        return jsonify({"error": "DB error", "details": str(db_err)}), 500
+    except Exception as e:
+        if conn: conn.rollback()
+        current_app.logger.error(f"Error updating member {member_id_to_update}: {e}", exc_info=True)
+        return jsonify({"error": "Server error"}), 500
     finally:
         if cursor: cursor.close()
         if conn and conn.is_connected(): conn.close()

@@ -1,6 +1,7 @@
 // src/pages/HomePage.js
 import React, { useState } from 'react'; // Import useState
 import MembersPage from './MembersPage'; // Import the new component
+import { useAuth } from '../context/AuthContext';
 
 // Basic styles (inline for simplicity)
 const styles = {
@@ -26,6 +27,8 @@ const styles = {
 
 // Receive onLogout prop from App.js (non-context version)
 function HomePage({ onLogout }) {
+    const { currentUser, logout } = useAuth(); 
+
     // State to control visibility of MembersPage
     const [showMembers, setShowMembers] = useState(false);
 
@@ -34,6 +37,10 @@ function HomePage({ onLogout }) {
         setShowMembers(prevShow => !prevShow);
     };
 
+    const handleLogout = () => {
+        logout();
+    }
+    
     return (
         <div style={styles.container}>
             <h2 style={styles.pageTitle}>Sports Management Dashboard</h2>

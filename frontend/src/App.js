@@ -1,53 +1,41 @@
-// src/App.js (No Router Version)
-import React, { useState, useEffect } from 'react';
-import LoginPage from './pages/LoginPage';   // Assuming LoginPage is in pages folder
-import HomePage from './pages/HomePage';     // Assuming HomePage is in pages folder
+// src/App.js (Corrected: Uses ONLY AuthContext for state)
+import React from 'react'; // Removed useState, useEffect imports
+import { useAuth } from './context/AuthContext'; // *** Use context hook ***
+
+// Import Page components
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+
 import './App.css';
 
 function App() {
-    const [token, setToken] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // Still useful
+    // *** Get user and loading state ONLY from Context ***
+    const { currentUser, isLoading } = useAuth();
 
-    // Check localStorage on initial load
-    useEffect(() => {
-        const storedToken = localStorage.getItem('session_token');
-        if (storedToken) {
-            console.log("App Mount: Found token:", storedToken.substring(0, 10) + "...");
-            // TODO: Ideally validate token with backend here
-            setToken(storedToken);
-        }
-        setIsLoading(false);
-    }, []);
-
-    // Login success handler - just updates token state
-    const handleLoginSuccess = (newToken) => {
-        console.log("App.js: handleLoginSuccess called, setting token.");
-        setToken(newToken);
-    };
-
-    // Logout handler
-    const handleLogout = () => {
-        console.log("App.js: handleLogout called.");
-        localStorage.removeItem('session_token');
-        setToken(null);
-    };
-
+    // Show loading indicator provided by AuthContext
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div style={{textAlign: 'center', padding: '50px', fontSize: '1.2em'}}>Loading Application...</div>;
     }
 
     return (
         <div className="App">
             <header className="App-header">
-                {/* Show title based on login state */}
-                <h1>{token ? "Sports Management Dashboard" : "Sports Management Portal"}</h1>
+                {/* Show title based on login state from context */}
+                <h1>{currentUser ? "Sports Management Dashboard" : "Sports Management Portal - Login"}</h1>
             </header>
             <main>
-                {/* Conditionally render the entire page component */}
-                {!token ? (
-                    <LoginPage onLoginSuccess={handleLoginSuccess} />
+                {/*
+                   Conditionally render the page based on whether
+                   currentUser exists in the AuthContext state.
+                */}
+                {!currentUser ? (
+                    // If no user in context, show Login Page
+                    // LoginPage uses context's login function, needs no props here
+                    <LoginPage />
                 ) : (
-                    <HomePage token={token} onLogout={handleLogout} />
+                    // If user exists in context, show Home Page
+                    // HomePage uses context's currentUser and logout, needs no props here
+                    <HomePage />
                 )}
             </main>
         </div>

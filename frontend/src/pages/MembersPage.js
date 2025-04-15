@@ -1,72 +1,81 @@
 // src/pages/MembersPage.js
 import React, { useState, useEffect } from 'react';
-import { getGroupMembers } from '../services/api'; // Import API function
+import { getGroupMembers } from '../services/api';
+import EditMemberForm from '../components/EditMemberForm'; // Import the form
+import { useAuth } from '../context/AuthContext'; // Import useAuth to check role
 
-// Styles for the table
-const styles = {
-    table: {
-        marginTop: '20px',
-        width: '100%',
-        maxWidth: '800px', // Limit table width
-        margin: '20px auto', // Center table
-        borderCollapse: 'collapse',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    },
-    th: {
-        backgroundColor: '#7e57c2', // Violet
+// ... (keep existing styles object) ...
+const styles = { /* ... styles from previous MembersPage ... */
+    editButton: { // Style for the edit button
+        marginLeft: '10px',
+        padding: '4px 8px',
+        fontSize: '0.8em',
+        cursor: 'pointer',
+        backgroundColor: '#ff9800', // Orange
         color: 'white',
-        padding: '12px 15px',
-        textAlign: 'left',
-        borderBottom: '2px solid #5e35b1', // Deeper violet
-    },
-    td: {
-        padding: '10px 15px',
-        borderBottom: '1px solid #eee',
-    },
-    // Basic alternating row color
-    trOdd: {
-        backgroundColor: '#f9f9f9'
-    },
-    loading: { textAlign: 'center', margin: '20px', fontStyle: 'italic', color: '#777'},
-    error: { textAlign: 'center', margin: '20px', color: 'red'},
-    container: { padding: '10px'} // Add padding around the table area
+        border: 'none',
+        borderRadius: '3px',
+    }
 };
 
 
 function MembersPage() {
     const [members, setMembers] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // Start loading true
+    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const { currentUser } = useAuth(); // Get current user to check role
+
+    // State for editing
+    const [editingMember, setEditingMember] = useState(null); // Store the member being edited
+    const [showEditForm, setShowEditForm] = useState(false);
+
+    const isAdmin = currentUser?.role === 'admin'; // Check if logged-in user is admin
+
+    // Fetch members function (keep as before)
+    const fetchMembers = async () => {
+        setIsLoading(true);
+        setError('');
+        try {
+            const response = await getGroupMembers();
+            setMembers(response.data || []);
+        } catch (err) { /* ... error handling ... */ }
+        finally { setIsLoading(false); }
+    };
 
     useEffect(() => {
-        // Fetch members when the component mounts
-        const fetchMembers = async () => {
-            setIsLoading(true);
-            setError('');
-            try {
-                const response = await getGroupMembers();
-                setMembers(response.data || []);
-            } catch (err) {
-                console.error("Error fetching group members:", err);
-                const errorMsg = err.response?.data?.error || err.message || "Could not fetch members";
-                setError(`Error: ${errorMsg}`);
-                setMembers([]); // Clear members on error
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        fetchMembers(); // Fetch on mount
+    }, []);
 
-        fetchMembers();
-    }, []); // Empty dependency array means run only once on mount
+    // --- Edit Handlers ---
+    const handleEditClick = (member) => {
+        setEditingMember(member); // Set the member to edit
+        setShowEditForm(true);    // Show the form/modal
+    };
+
+    const handleEditCancel = () => {
+        setShowEditForm(false);    // Hide the form
+        setEditingMember(null);    // Clear editing state
+    };
+
+    const handleEditSave = (updatedMember) => {
+        // Update the list in the state visually
+        setMembers(prevMembers =>
+            prevMembers.map(m => m.ID === updatedMember.ID ? updatedMember : m)
+        );
+        setShowEditForm(false);    // Hide the form
+        setEditingMember(null);    // Clear editing state
+        alert(`Member ${updatedMember.UserName} updated successfully!`); // Simple feedback
+        // Optionally re-fetch the whole list: fetchMembers();
+    };
+    // --- End Edit Handlers ---
 
     return (
         <div style={styles.container}>
             <h2>Group 2 Members</h2>
             {isLoading && <p style={styles.loading}>Loading members...</p>}
             {error && <p style={styles.error}>{error}</p>}
-            {!isLoading && !error && members.length === 0 && (
-                <p>No members found in this group.</p>
-            )}
+            {/* ... (No members found message) ... */}
+
             {!isLoading && !error && members.length > 0 && (
                 <table style={styles.table}>
                     <thead>
@@ -75,6 +84,7 @@ function MembersPage() {
                             <th style={styles.th}>Username</th>
                             <th style={styles.th}>Email</th>
                             <th style={styles.th}>Date of Birth</th>
+                            {isAdmin && <th style={styles.th}>Actions</th>} {/* Action column for Admin */}
                         </tr>
                     </thead>
                     <tbody>
@@ -84,10 +94,30 @@ function MembersPage() {
                                 <td style={styles.td}>{member.UserName}</td>
                                 <td style={styles.td}>{member.emailID}</td>
                                 <td style={styles.td}>{member.DoB ? new Date(member.DoB).toLocaleDateString() : 'N/A'}</td>
+                                {/* Render Edit button only for Admins */}
+                                {isAdmin && (
+                                    <td style={styles.td}>
+                                        <button
+                                            onClick={() => handleEditClick(member)}
+                                            style={styles.editButton}
+                                        >
+                                            Edit
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>
                 </table>
+            )}
+
+            {/* Conditionally render the Edit Form as an overlay/modal */}
+            {showEditForm && (
+                <EditMemberForm
+                    memberToEdit={editingMember}
+                    onSave={handleEditSave}
+                    onCancel={handleEditCancel}
+                />
             )}
         </div>
     );
