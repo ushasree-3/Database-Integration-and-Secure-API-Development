@@ -1,2 +1,32 @@
+# Node.js specific
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-error.log*
+
+# React specific (often included in standard Node.js ignores)
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files and logs (you might have others specific to your setup)
+tmp/
+log/
+*.log
+
+# IDE specific files (adjust as needed)
+.idea/
+.vscode/
+
+# OS specific files (adjust as needed)
+.DS_Store
+Thumbs.db
+
 *.pyc
 __pycache__/

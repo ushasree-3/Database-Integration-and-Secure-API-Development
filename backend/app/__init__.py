@@ -3,6 +3,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 # Import configuration object
 from config import Config
@@ -10,6 +11,7 @@ from config import Config
 def create_app(config_class=Config):
     """Application Factory Function"""
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
 
     # Load configuration from config.py
     app.config.from_object(config_class)
