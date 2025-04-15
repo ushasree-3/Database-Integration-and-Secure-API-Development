@@ -72,22 +72,37 @@ def check_venue_exists(venue_id):
         if conn and conn.is_connected(): conn.close()
     return exists
 
-def check_equipment_exists(equipment_id):
-    """Checks if an EquipmentID exists in the project Equipment table."""
-    conn = None; cursor = None; exists = False
+def is_equipment_issuable(equipment_id):
+    """
+    Checks if the equipment is available and in good/fair condition.
+    Returns (True, "") if issuable, else (False, error_message)
+    """
+    conn = None
+    cursor = None
     try:
         conn = get_project_db_connection()
-        if not conn: return False
-        cursor = conn.cursor()
-        cursor.execute("SELECT 1 FROM Equipment WHERE EquipmentID = %s", (equipment_id,))
-        exists = cursor.fetchone() is not None
+        if not conn:
+            return False, "Database connection failed"
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT IsAvailable, Condition_ FROM Equipment WHERE EquipmentID = %s", (equipment_id,))
+        row = cursor.fetchone()
+        if not row:
+            return False, "Equipment not found"
+
+        if not row["IsAvailable"]:
+            return False, "Equipment is not available for issue"
+
+        if row["Condition_"] == "Poor":
+            return False, "Equipment is in poor condition and cannot be issued"
+
+        return True, ""
     except mysql.connector.Error as db_err:
-        current_app.logger.error(f"Error checking project equipment existence for ID {equipment_id}: {db_err}")
-        exists = False
+        current_app.logger.error(f"Error checking equipment status for EquipmentID {equipment_id}: {db_err}")
+        return False, "Database error occurred"
     finally:
         if cursor: cursor.close()
         if conn and conn.is_connected(): conn.close()
-    return exists
+
 
 def check_member_role(member_id, allowed_roles):
     """Checks if a MemberID has one of the allowed roles in CIMS Login."""
