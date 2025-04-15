@@ -38,7 +38,8 @@ function HomePage({ onLogout }) {
     };
 
     const handleLogout = () => {
-        logout();
+        console.log("HomePage: Logout button clicked!"); 
+        logout(); // Call context logout
     }
     
     return (
@@ -72,7 +73,7 @@ function HomePage({ onLogout }) {
 
             {/* Logout Button */}
             <div style={{ marginTop: '50px', textAlign: 'center' }}>
-                <button onClick={onLogout} style={styles.logoutButton}>
+                <button onClick={handleLogout} style={styles.logoutButton}>
                     Logout
                 </button>
             </div>

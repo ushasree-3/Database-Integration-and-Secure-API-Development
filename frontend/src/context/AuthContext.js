@@ -77,9 +77,15 @@ export const AuthProvider = ({ children }) => {
 
     // Logout function
     const logout = () => {
-        console.log("AuthContext: Logging out.");
-        localStorage.removeItem('session_token');
-        setCurrentUser(null);
+        console.log("AuthContext: Attempting logout...");
+        try {
+            localStorage.removeItem('session_token');
+            console.log("AuthContext: Token removed from localStorage.");
+            setCurrentUser(null); // Attempt to set state to null
+            console.log("AuthContext: setCurrentUser(null) called.");
+        } catch (error) {
+            console.error("!!! Error during logout state update:", error);
+        }
     };
 
     // Value provided to consuming components
