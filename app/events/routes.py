@@ -438,8 +438,9 @@ def list_registered_teams(current_user_id, current_user_role, event_id):
     current_app.logger.info(f"Request: List registrations for Event {event_id} by User {current_user_id}")
 
     # Check if event exists first for better 404 message
-    if not check_event_exists(event_id):
-        return jsonify({"error": f"Event with ID {event_id} not found"}), 404
+    is_valid, error_message = is_event_valid(event_id)
+    if not is_valid:
+        return jsonify({"error": error_message}), 400
 
     conn = None; cursor = None
     try:

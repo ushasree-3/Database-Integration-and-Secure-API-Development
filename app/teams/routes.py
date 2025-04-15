@@ -7,7 +7,7 @@ import logging
 # Import helpers and decorators
 from ..auth.decorators import token_required
 from ..utils.database import get_project_db_connection, get_cims_db_connection
-from ..utils.helpers import check_member_exists, check_team_exists, check_event_exists
+from ..utils.helpers import check_member_exists, check_team_exists, is_event_valid
 
 # Create the Blueprint instance for teams
 teams_bp = Blueprint('teams', __name__)
@@ -248,7 +248,10 @@ def add_player_to_team_for_event(current_user_id, current_user_role, team_id, ev
 
     # --- Initial Validation ---
     if not check_team_exists(team_id): return jsonify({"error": f"Team ID {team_id} not found"}), 404
-    if not check_event_exists(event_id): return jsonify({"error": f"Event ID {event_id} not found"}), 404
+    is_valid, error_message = is_event_valid(event_id)
+    if not is_valid:
+        return jsonify({"error": error_message}), 400
+
 
     conn = None; cursor = None
     try:
@@ -329,7 +332,9 @@ def list_players_in_team_for_event(current_user_id, current_user_role, team_id, 
 
     # Check existence for better error messages
     if not check_team_exists(team_id): return jsonify({"error": f"Team {team_id} not found"}), 404
-    if not check_event_exists(event_id): return jsonify({"error": f"Event {event_id} not found"}), 404
+    is_valid, error_message = is_event_valid(event_id)
+    if not is_valid:
+        return jsonify({"error": error_message}), 400
 
     conn = None; cursor = None
     try:
@@ -380,7 +385,10 @@ def remove_player_from_team_for_event(current_user_id, current_user_role, team_i
     # --- Initial validation ---
     # Don't strictly need to check team/event existence if FKs handle it, but good for clarity
     # if not check_team_exists(team_id): return jsonify({"error": f"Team ID {team_id} not found"}), 404
-    # if not check_event_exists(event_id): return jsonify({"error": f"Event ID {event_id} not found"}), 404
+    # is_valid, error_message = is_event_valid(event_id)
+    # if not is_valid:
+    #     return jsonify({"error": error_message}), 400
+
 
     conn = None; cursor = None
     try:

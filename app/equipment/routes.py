@@ -289,7 +289,7 @@ def borrow_equipment(current_user_id, current_user_role):
         conn = get_project_db_connection()
         if not conn: return jsonify({"error": "DB connection failed"}), 500
         # --- Use Transaction ---
-        conn.start_transaction() # Explicit transaction needed for multi-step
+        # conn.start_transaction() # Explicit transaction needed for multi-step
         cursor = conn.cursor()
         # Assumes EquipmentLog(LogID PK AI, EquipmentID FK, IssuedTo FK(cims), IssueDate DT, ReturnDate DT NULL)
         sql_log = "INSERT INTO EquipmentLog (EquipmentID, IssuedTo, IssueDate) VALUES (%s, %s, %s)"
@@ -358,7 +358,7 @@ def return_equipment(current_user_id, current_user_role, log_id):
         # --- End Check ---
 
         # --- Use Transaction ---
-        conn.start_transaction()
+        # conn.start_transaction()
         cursor = conn.cursor()
 
         # Update the log entry

@@ -7,7 +7,7 @@ import logging
 from ..auth.decorators import token_required
 from ..utils.database import get_project_db_connection
 # Import helpers needed
-from ..utils.helpers import check_event_exists, check_team_exists, check_venue_exists
+from ..utils.helpers import is_event_valid, check_team_exists, check_venue_exists
 
 matches_bp = Blueprint('matches', __name__)
 
@@ -111,7 +111,9 @@ def schedule_match(current_user_id, current_user_role):
         return jsonify({"error": "Invalid JSON data or data types (check IDs, date format)"}), 400
 
     # --- Existence Checks ---
-    if not check_event_exists(event_id): return jsonify({"error": f"Event {event_id} not found"}), 404
+    is_valid, error_message = is_event_valid(event_id)
+    if not is_valid:
+        return jsonify({"error": error_message}), 400
     if not check_team_exists(team1_id): return jsonify({"error": f"Team1 {team1_id} not found"}), 404
     if not check_team_exists(team2_id): return jsonify({"error": f"Team2 {team2_id} not found"}), 404
     if not check_venue_exists(venue_id): return jsonify({"error": f"Venue {venue_id} not found"}), 404
