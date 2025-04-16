@@ -11,14 +11,18 @@ from config import Config
 def create_app(config_class=Config):
     """Application Factory Function"""
     app = Flask(__name__, instance_relative_config=True)
-    CORS(app)
 
-    # Load configuration from config.py
+    # Load configuration FIRST
     app.config.from_object(config_class)
 
-    # Optional: Load instance config if it exists (e.g., for secrets)
-    # app.config.from_pyfile('config.py', silent=True) # Looks in instance/config.py
-
+    # Configure CORS using environment variable from config
+    # Read allowed origins from env var, split by comma, default to allow localhost:3000
+    # In production on Render, you'll set CORS_ALLOWED_ORIGINS there.
+    allowed_origins = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+    # Trim whitespace from origins list
+    allowed_origins = [origin.strip() for origin in allowed_origins]
+    app.logger.info(f"Initializing CORS for origins: {allowed_origins}")
+    CORS(app, origins=allowed_origins, supports_credentials=True) # Explicitly list origins
     # Configure Logging
     # Ensure logs directory exists (handled in config.py now, but good practice)
     log_dir = os.path.dirname(app.config['LOGGING_FILENAME'])

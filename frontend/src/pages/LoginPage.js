@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 // REMOVED: import { useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:5001';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 function LoginPage({ onLoginSuccess }) { // Needs prop to update App state
     const [userId, setUserId] = useState('');

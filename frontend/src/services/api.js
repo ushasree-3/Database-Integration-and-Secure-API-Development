@@ -2,8 +2,16 @@
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 
-const API_URL = 'http://localhost:5001';
-const apiClient = axios.create({ baseURL: 'http://localhost:5001', /* ... headers */ });
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+console.log("API Service using Base URL:", API_URL); 
+
+// *** Create apiClient using the API_URL variable ***
+const apiClient = axios.create({
+    baseURL: API_URL, // <-- Use the variable here
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
 
 apiClient.interceptors.request.use(
     (config) => {
@@ -13,8 +21,12 @@ apiClient.interceptors.request.use(
     }, (error) => Promise.reject(error)
 );
 
-// --- Login Function ---
-export const loginUser = (credentials) => axios.post(`${API_URL}/login`, credentials);
+
+// Login function might need full URL if not using apiClient base for it
+export const loginUser = (credentials) => {
+    // Make sure to use the API_URL if using base axios directly
+    return axios.post(`${API_URL}/login`, credentials);
+};
 
 // --- Member Service Functions ---
 export const getMyProfile = () => apiClient.get('/profile/me');
