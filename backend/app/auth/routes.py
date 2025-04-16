@@ -9,7 +9,7 @@ import mysql.connector
 from ..utils.database import get_cims_db_connection
 
 # Create the Blueprint instance
-auth_bp = Blueprint('auth', __name__) # 'auth' is the name of the blueprint
+auth_bp = Blueprint('auth', _name_) # 'auth' is the name of the blueprint
 
 @auth_bp.route('/login', methods=['POST'])
 def local_login():
@@ -89,19 +89,31 @@ def local_login():
         current_app.logger.info(f"Credentials valid for MemberID {member_id_str}. Role: {user_role}. Generating local JWT.")
 
         # Generate JWT Token
+        expiry_dt = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)
+        expiry_unix = int(expiry_dt.timestamp())  # convert to int for DB
+
         token_payload = {
             'sub': member_id_str,
             'role': user_role,
-            # Use timezone aware UTC time
-            'iat': datetime.datetime.now(datetime.timezone.utc),
-            'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=1)
+            'iat': int(datetime.datetime.now(datetime.timezone.utc).timestamp()),
+            'exp': expiry_unix
         }
+
         session_token = jwt.encode(
             token_payload,
-            current_app.config['SECRET_KEY'], # Use key from app config
+            current_app.config['SECRET_KEY'],
             algorithm="HS256"
         )
-        current_app.logger.info(f"Local JWT generated for MemberID {member_id_str}.")
+
+        # Update Login table with session token and expiry
+        update_sql = """
+            UPDATE Login
+            SET Session = %s, Expiry = %s
+            WHERE MemberID = %s
+        """
+        cursor.execute(update_sql, (session_token, expiry_unix, member_id_str))
+        conn.commit()
+        current_app.logger.info(f"Session and expiry updated in DB for MemberID {member_id_str}.")
 
         return jsonify({
             "message": "Login successful (Locally Authenticated)",

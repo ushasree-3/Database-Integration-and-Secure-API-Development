@@ -2,14 +2,14 @@
 from flask import request, jsonify, current_app, Blueprint
 import mysql.connector
 import hashlib
-import datetime
+from datetime import *
 
 # Import helpers and decorators
 from ..utils.database import get_cims_db_connection
 from ..auth.decorators import token_required
 
 # Create the Blueprint instance
-members_bp = Blueprint('members', __name__) # 'members' is the blueprint name
+members_bp = Blueprint('members', _name_) # 'members' is the blueprint name
 
 # --- Task 1 Endpoint: Add Member (Admin Only) ---
 @members_bp.route('/admin/add_member', methods=['POST'])
@@ -26,9 +26,6 @@ def add_member_task1(current_user_id, current_user_role):
 
     try:
         data = request.get_json()
-        auth_header = request.headers['Authorization']
-        if auth_header.startswith('Bearer '):
-            session_token = auth_header.split(' ')[1]
         if not data or 'UserName' not in data:
             current_app.logger.warning("Missing 'UserName' in add_member request")
             return jsonify({"error": "Missing 'Username' in request JSON body"}), 400
@@ -67,12 +64,9 @@ def add_member_task1(current_user_id, current_user_role):
         default_password = current_app.config['DEFAULT_PASSWORD']
         hashed_default_password = hashlib.md5(default_password.encode()).hexdigest()
 
-        # Set session expiry (3 hours from now in seconds)
-        expiry_seconds = 10800  # 3 hours * 60 minutes * 60 seconds
-
-        # Insert into Login (Use correct table and column names: Login, MemberID, Password, Role, Session, Expiry)
-        sql_insert_login = "INSERT INTO Login (MemberID, Password, Role, Session, Expiry) VALUES (%s, %s, %s, %s, %s)"
-        cursor.execute(sql_insert_login, (new_member_id, hashed_default_password, new_role, session_token, expiry_seconds))        
+        # Insert into Login (Use correct table and column names: Login, MemberID, Password, Role)
+        sql_insert_login = "INSERT INTO Login (MemberID, Password, Role) VALUES (%s, %s, %s)"
+        cursor.execute(sql_insert_login, (new_member_id, hashed_default_password, new_role))        
         current_app.logger.info(f"Executed INSERT Login for MemberID {new_member_id}.")
 
         conn.commit()
