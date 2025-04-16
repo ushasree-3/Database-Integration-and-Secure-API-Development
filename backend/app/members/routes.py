@@ -9,7 +9,7 @@ from ..utils.database import get_cims_db_connection
 from ..auth.decorators import token_required
 
 # Create the Blueprint instance
-members_bp = Blueprint('members', _name_) # 'members' is the blueprint name
+members_bp = Blueprint('members', __name__) # 'members' is the blueprint name
 
 # --- Task 1 Endpoint: Add Member (Admin Only) ---
 @members_bp.route('/admin/add_member', methods=['POST'])

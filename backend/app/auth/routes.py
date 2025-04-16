@@ -9,7 +9,7 @@ import mysql.connector
 from ..utils.database import get_cims_db_connection
 
 # Create the Blueprint instance
-auth_bp = Blueprint('auth', _name_) # 'auth' is the name of the blueprint
+auth_bp = Blueprint('auth', __name__) # 'auth' is the name of the blueprint
 
 @auth_bp.route('/login', methods=['POST'])
 def local_login():
