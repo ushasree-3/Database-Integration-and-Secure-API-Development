@@ -29,11 +29,6 @@ log/
 Thumbs.db
 
 
-# Environment variables
-.env
-.env.*
-!.env.example
-
 *.pyc
 __pycache__/
 instance/

@@ -14,15 +14,17 @@ def create_app(config_class=Config):
 
     # Load configuration FIRST
     app.config.from_object(config_class)
-
-    # Configure CORS using environment variable from config
-    # Read allowed origins from env var, split by comma, default to allow localhost:3000
-    # In production on Render, you'll set CORS_ALLOWED_ORIGINS there.
+    
     allowed_origins = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
-    # Trim whitespace from origins list
     allowed_origins = [origin.strip() for origin in allowed_origins]
     app.logger.info(f"Initializing CORS for origins: {allowed_origins}")
-    CORS(app, origins=allowed_origins, supports_credentials=True) # Explicitly list origins
+    # Explicitly allow common methods and headers, support credentials
+    CORS(app,
+         origins=allowed_origins,
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+         allow_headers=["Content-Type", "Authorization"],
+         supports_credentials=True
+    )
     # Configure Logging
     # Ensure logs directory exists (handled in config.py now, but good practice)
     log_dir = os.path.dirname(app.config['LOGGING_FILENAME'])
