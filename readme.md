@@ -1,6 +1,7 @@
 # CS432 - Module 3 
 
 This Flask API implements Task 1 (Member Creation) and Task 2 (Role-Based Access Control - RBAC) for the CS432 Module 3 assignment
+A short demo is linked [here](https://youtu.be/tmyJm6wDxZ0?si=6SoHsK6UKPl0U3dr).
 
 ## Prerequisites
 
@@ -152,5 +153,6 @@ If you plan to connect a React frontend to this Flask API, install the following
 ```bash
 npm install axios
 npm install react-router-dom
+
 
 
