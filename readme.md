@@ -145,6 +145,12 @@ curl -X GET http://localhost:5001/admin/profile/447 \
      -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 
-npm install axios
+### 5. (Optional) Frontend Setup
 
+If you plan to connect a React frontend to this Flask API, install the following dependencies:
+
+```bash
+npm install axios
 npm install react-router-dom
+
+
