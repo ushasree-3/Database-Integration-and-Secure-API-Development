@@ -10,9 +10,7 @@ This Flask API implements Task 1 (Member Creation) and Task 2 (Role-Based Access
 
 ## Setup Instructions
 
-1. **Clone the repository (if applicable) or ensure code structure:**
-
-   Make sure your project follows the modular structure:
+1. **Clone the repository:**
 
    ```
    cs432_project_g2/
@@ -148,4 +146,5 @@ curl -X GET http://localhost:5001/admin/profile/447 \
 ```
 
 npm install axios
+
 npm install react-router-dom
