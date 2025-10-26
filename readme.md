@@ -66,7 +66,7 @@ A short demo is linked [here](https://youtu.be/tmyJm6wDxZ0?si=6SoHsK6UKPl0U3dr).
 ## Running the Application
 
 1. Ensure your virtual environment is activated.
-2. Make sure you are in the project root directory (`cs432_project_g2/`).
+2. Make sure you are in the backend directory.
 3. Execute the run script:
 
    ```bash
@@ -148,11 +148,11 @@ curl -X GET http://localhost:5001/admin/profile/447 \
 
 ### 5. (Optional) Frontend Setup
 
-If you plan to connect a React frontend to this Flask API, install the following dependencies:
+If you plan to connect a React frontend to this Flask API, you must have Node.js and npm installed to manage the necessary dependencies. This step is for the client-side application only.
+
+Navigate to your frontend project directory and run the following commands to install the required packages:
 
 ```bash
 npm install axios
 npm install react-router-dom
-
-
-
+```
