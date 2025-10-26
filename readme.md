@@ -15,22 +15,68 @@ A short demo is linked [here](https://youtu.be/tmyJm6wDxZ0?si=6SoHsK6UKPl0U3dr).
 
    ```
    cs432_project_g2/
-   ├── app/
+   ├── backend/
+   │   ├── app/
+   │   │   ├── auth/         # Authentication endpoints & decorators
+   │   │   │   ├── __init__.py
+   │   │   │   ├── decorators.py
+   │   │   │   └── routes.py
+   │   │   ├── equipment/    # Equipment management endpoints
+   │   │   │   ├── __init__.py
+   │   │   │   └── routes.py
+   │   │   ├── events/       # Event management endpoints
+   │   │   │   ├── __init__.py
+   │   │   │   └── routes.py
+   │   │   ├── matches/      # Match management endpoints
+   │   │   │   ├── __init__.py
+   │   │   │   └── routes.py
+   │   │   ├── members/      # Members endpoints
+   │   │   │   ├── __init__.py
+   │   │   │   └── routes.py
+   │   │   ├── teams/        # Teams endpoints
+   │   │   │   ├── __init__.py
+   │   │   │   └── routes.py
+   │   │   ├── venues/       # Venue endpoints
+   │   │   │   ├── __init__.py
+   │   │   │   └── routes.py
+   │   │   └── utils/        # Helper utilities
+   │   │       ├── __init__.py
+   │   │       ├── database.py
+   │   │       └── helpers.py
    │   ├── __init__.py
-   │   ├── auth/
-   │   │   ├── __init__.py
-   │   │   ├── routes.py     # Contains /login
-   │   │   └── decorators.py # Contains @token_required
-   │   ├── members/
-   │   │   ├── __init__.py
-   │   │   └── routes.py     # Contains /admin/add_member, /profile/*
-   │   └── utils/
-   │       ├── __init__.py
-   │       └── database.py   # DB connection helper
-   ├── logs/                 # Log files stored here
-   │   └── app.log
-   ├── config.py             # Main configuration
-   └── run.py                # Script to start the app
+   │   ├── instance/
+   │   │   └── config.py    # Environment-specific config (DB URL, secrets)
+   │   ├── logs/            # Backend logs
+   │   ├── config.py
+   │   ├── demo.sh          # Script for demo or setup
+   │   ├── requirements.txt # Python dependencies
+   │   └── run.py           # App entry point
+   ├── frontend/
+   │   ├── public/          # Static files
+   │   │   ├── index.html
+   │   │   ├── manifest.json
+   │   │   └── favicon/logo images
+   │   ├── src/
+   │   │   ├── components/
+   │   │   │   └── EditMemberForm.js      # Reusable modal/form for editing members
+   │   │   ├── context/
+   │   │   │   └── AuthContext.js         # Central auth logic
+   │   │   ├── pages/
+   │   │   │   ├── HomePage.js
+   │   │   │   ├── LoginPage.js
+   │   │   │   └── MembersPage.js
+   │   │   ├── services/
+   │   │   │   └── api.js                 # Central API client
+   │   │   ├── App.js                      # Root component
+   │   │   ├── index.js                    # ReactDOM render
+   │   │   └── CSS + misc files
+   │   ├── .env.production
+   │   └── package.json
+   ├── logs/
+   │   ├── app.log
+   │   ├── app.log.1
+   │   └── app.log.2  
+   └── README.md
    ```
 
 2. **Navigate to the project root directory:**
@@ -156,3 +202,4 @@ Navigate to your frontend project directory and run the following commands to in
 npm install axios
 npm install react-router-dom
 ```
+
